@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="futin.view.MainController">
    <children>
-      <Label fx:id="mEnglishLabel" layoutX="22.0" layoutY="24.0" text="apple">
+      <Label fx:id="mEnglishLabel" layoutX="64.0" layoutY="27.0" text="apple">
          <font>
             <Font size="29.0" />
          </font>
@@ -28,5 +28,7 @@
       <Button fx:id="mNextButton" layoutX="261.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleNext" text="&gt;" />
       <ProgressIndicator fx:id="mLoadingProgress" layoutX="151.0" layoutY="8.0" prefHeight="23.0" prefWidth="17.0" visible="false" />
       <Label fx:id="mLoadingLabel" layoutX="175.0" layoutY="12.0" text="Loading next word" textFill="#727272" visible="false" />
+      <Button fx:id="mStarButton" layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleStarIt" text="☆" />
+      <Button fx:id="mNextButton1" layoutX="190.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleNext" text="Search" />
    </children>
 </AnchorPane>

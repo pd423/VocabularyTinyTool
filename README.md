@@ -6,6 +6,9 @@ This application will pin the top on the screen and show an English word and Chi
 
 
 ## Release note
+### 0.2.0.170619
+Save favorite vocabulary.
+
 ### 0.1.0.170604
 First version. Provide the simplest word card.
 

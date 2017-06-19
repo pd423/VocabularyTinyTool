@@ -1,10 +1,9 @@
 package futin;
 
 import futin.util.TextUtils;
-import futin.util.Util;
+import futin.util.Utils;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -71,7 +70,6 @@ public class LoadWordTask extends TimerTask {
 
         mCallback.update(new Vocabulary(vocabulary, phonetic, chinese));
 
-
         mCallback.postExecute();
     }
 
@@ -105,8 +103,8 @@ public class LoadWordTask extends TimerTask {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            Util.closeClosable(fr);
-            Util.closeClosable(br);
+            Utils.closeClosable(fr);
+            Utils.closeClosable(br);
         }
 
         return "";
@@ -140,7 +138,7 @@ public class LoadWordTask extends TimerTask {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            Util.closeClosable(br);
+            Utils.closeClosable(br);
         }
 
         return content.toString();

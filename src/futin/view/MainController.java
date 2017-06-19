@@ -3,6 +3,8 @@ package futin.view;
 import futin.Main;
 import futin.Parameter;
 import futin.Vocabulary;
+import futin.util.FileUtils;
+import futin.util.TextUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,6 +44,11 @@ public class MainController {
     private Label mLoadingLabel;
 
     @FXML
+    private Button mStarButton;
+
+    private Vocabulary mCurrentVocabulary;
+
+    @FXML
     private void initialize() {
         mChineseLabel.setWrapText(true);
         mChineseLabel.setTextAlignment(TextAlignment.JUSTIFY);
@@ -65,6 +72,9 @@ public class MainController {
                     e.printStackTrace();
                 }
             });
+
+            mCurrentVocabulary = vocabulary;
+            updateStartItUI(isFavoriteVocabulary(mCurrentVocabulary));
         }
     }
 
@@ -81,11 +91,13 @@ public class MainController {
     public void loadingNextVocabulary() {
         showLoadingNextVocabulary();
         mNextButton.setVisible(false);
+        mStarButton.setVisible(false);
     }
 
     public void finishLoadingNextVocabulary() {
         hideLoadingNextVocabulary();
         mNextButton.setVisible(true);
+        mStarButton.setVisible(true);
     }
 
     @FXML
@@ -97,6 +109,34 @@ public class MainController {
                     mMain.nextVocabulary();
                 }
             });
+            thread.start();
         }
+    }
+
+    @FXML
+    private void handleStarIt() {
+        if (mCurrentVocabulary != null && !isFavoriteVocabulary(mCurrentVocabulary)) {
+            java.util.List<Vocabulary> favoriteVocabularies = FileUtils.readVocabularyList(FileUtils.getSaveFile());
+            favoriteVocabularies.add(mCurrentVocabulary);
+            updateStartItUI(true);
+            FileUtils.saveVocabularyList(FileUtils.getSaveFile(), favoriteVocabularies);
+        }
+    }
+
+    void updateStartItUI(boolean isStar) {
+        mStarButton.setText(isStar ? "★" : "☆");
+    }
+
+    boolean isFavoriteVocabulary(Vocabulary vocabulary) {
+        if (vocabulary == null || TextUtils.isEmpty(vocabulary.getEnglish())) {
+            return false;
+        }
+        java.util.List<Vocabulary> favoriteVocabularies = FileUtils.readVocabularyList(FileUtils.getSaveFile());
+        for (Vocabulary tmpVoc : favoriteVocabularies) {
+            if (TextUtils.equals(tmpVoc.getEnglish(), vocabulary.getEnglish())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

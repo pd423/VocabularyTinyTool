@@ -3,7 +3,7 @@ package futin.util;
 import java.io.Closeable;
 import java.io.IOException;
 
-public class Util {
+public class Utils {
 
     public static void closeClosable(Closeable object) {
         if (object != null) {
