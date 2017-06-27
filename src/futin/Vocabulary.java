@@ -1,5 +1,7 @@
 package futin;
 
+import futin.util.FileUtils;
+import futin.util.TextUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -55,6 +57,19 @@ public class Vocabulary {
     public void setChinese(String chinese) {
         chinese = chinese == null ? "" : chinese;
         mChinese.set(chinese);
+    }
+
+    public static boolean isFavoriteVocabulary(Vocabulary vocabulary) {
+        if (vocabulary == null || TextUtils.isEmpty(vocabulary.getEnglish())) {
+            return false;
+        }
+        java.util.List<Vocabulary> favoriteVocabularies = FileUtils.readVocabularyList(FileUtils.getSaveFile());
+        for (Vocabulary tmpVoc : favoriteVocabularies) {
+            if (TextUtils.equals(tmpVoc.getEnglish(), vocabulary.getEnglish())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

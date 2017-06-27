@@ -1,15 +1,21 @@
 package futin.view;
 
+import futin.LoadWordRunnable;
 import futin.Main;
 import futin.Parameter;
 import futin.Vocabulary;
 import futin.util.FileUtils;
+import futin.util.TextUtils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.TextAlignment;
 
 import java.awt.*;
@@ -19,12 +25,12 @@ import java.net.URISyntaxException;
 
 import static futin.Vocabulary.isFavoriteVocabulary;
 
-public class MainController {
+public class SearchController {
 
     private Main mMain;
 
     @FXML
-    private Label mEnglishLabel;
+    private TextField mEnglishTextField;
 
     @FXML
     private Label mPhoneticLabel;
@@ -34,9 +40,6 @@ public class MainController {
 
     @FXML
     private Hyperlink mOnlineLink;
-
-    @FXML
-    private Button mNextButton;
 
     @FXML
     private ProgressIndicator mLoadingProgress;
@@ -64,56 +67,65 @@ public class MainController {
                 e.printStackTrace();
             }
         });
+
+        mEnglishTextField.setOnKeyPressed((KeyEvent event) -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleSearch();
+            }
+        });
     }
 
     public void setMain(Main main) {
         mMain = main;
     }
 
-    public void updateVocabulary(Vocabulary vocabulary) {
-        if (vocabulary != null) {
-            mEnglishLabel.setText(vocabulary.getEnglish());
-            mPhoneticLabel.setText(vocabulary.getPhonetic());
-            mChineseLabel.setText(vocabulary.getChinese());
-
-            mOnlineLink.setOnAction((ActionEvent event) -> {
-                try {
-                    Desktop.getDesktop().browse(
-                            new URI(Parameter.VOCABULARY_SEACH_URL_PREFIX + vocabulary.getEnglish()));
-                } catch (URISyntaxException | IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            mCurrentVocabulary = vocabulary;
-            updateStartItUI(isFavoriteVocabulary(mCurrentVocabulary));
-        }
-    }
-
-    public void loadingNextVocabulary() {
+    public void loadingVocabulary() {
         mLoadingProgress.setVisible(true);
         mLoadingLabel.setVisible(true);
-        mNextButton.setVisible(false);
         mStarButton.setVisible(false);
+        mSearchButton.setVisible(false);
     }
 
-    public void finishLoadingNextVocabulary() {
+    public void finishLoadingVocabulary() {
         mLoadingProgress.setVisible(false);
         mLoadingLabel.setVisible(false);
-        mNextButton.setVisible(true);
         mStarButton.setVisible(true);
+        mSearchButton.setVisible(true);
     }
 
     @FXML
-    private void handleNext() {
-        if (mMain != null) {
-            Thread thread = new Thread(new Runnable() {
+    private void handleSearch() {
+        if (!TextUtils.isEmpty(mEnglishTextField.getText())) {
+            loadingVocabulary();
+            Thread thread = new Thread(new LoadWordRunnable(mEnglishTextField.getText(), new LoadWordRunnable.LoadWordCallback() {
                 @Override
-                public void run() {
-                    mMain.nextVocabulary();
+                public void onPostExecute(Vocabulary vocabulary) {
+                    updateVocabulary(vocabulary);
+                    finishLoadingVocabulary();
                 }
-            });
+            }));
             thread.start();
+        }
+    }
+
+    private void updateVocabulary(Vocabulary vocabulary) {
+        if (vocabulary != null) {
+            Platform.runLater(() -> {
+                    mPhoneticLabel.setText(vocabulary.getPhonetic());
+                    mChineseLabel.setText(vocabulary.getChinese());
+
+                    mOnlineLink.setOnAction((ActionEvent event) -> {
+                        try {
+                            Desktop.getDesktop().browse(
+                                    new URI(Parameter.VOCABULARY_SEACH_URL_PREFIX + vocabulary.getEnglish()));
+                        } catch (URISyntaxException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    mCurrentVocabulary = vocabulary;
+                    updateStartItUI(isFavoriteVocabulary(mCurrentVocabulary));
+            });
         }
     }
 
@@ -129,12 +141,5 @@ public class MainController {
 
     void updateStartItUI(boolean isStar) {
         mStarButton.setText(isStar ? "★" : "☆");
-    }
-
-    @FXML
-    private void handleSearch() {
-        if (mMain != null) {
-            mMain.showSearchWindow();
-        }
     }
 }

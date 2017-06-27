@@ -12,13 +12,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="futin.view.MainController">
    <children>
-      <Label fx:id="mEnglishLabel" layoutX="64.0" layoutY="27.0" text="apple">
+      <Label fx:id="mEnglishLabel" layoutX="64.0" layoutY="27.0">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Label fx:id="mPhoneticLabel" layoutX="26.0" layoutY="73.0" text="[ˋæp!]" />
-      <Label fx:id="mChineseLabel" layoutX="26.0" layoutY="100.0" prefWidth="248.0" text="蘋果；美國蘋果公司">
+      <Label fx:id="mPhoneticLabel" layoutX="26.0" layoutY="73.0" />
+      <Label fx:id="mChineseLabel" layoutX="26.0" layoutY="100.0" prefWidth="248.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -29,6 +29,6 @@
       <ProgressIndicator fx:id="mLoadingProgress" layoutX="151.0" layoutY="8.0" prefHeight="23.0" prefWidth="17.0" visible="false" />
       <Label fx:id="mLoadingLabel" layoutX="175.0" layoutY="12.0" text="Loading next word" textFill="#727272" visible="false" />
       <Button fx:id="mStarButton" layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleStarIt" text="☆" />
-      <Button fx:id="mNextButton1" layoutX="190.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleNext" text="Search" />
+      <Button fx:id="mSearchButton" layoutX="190.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
    </children>
 </AnchorPane>

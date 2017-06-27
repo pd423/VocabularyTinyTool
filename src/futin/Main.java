@@ -6,6 +6,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,7 +20,7 @@ public class Main extends Application {
     private Stage mPrimaryStage;
     private MainController mMainController;
     private Timer mTimer;
-    private LoadWordTask mTask;
+    private LoadNextWordTask mTask;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,20 +32,15 @@ public class Main extends Application {
 
         mTimer = new Timer();
 
-        mTask = new LoadWordTask();
-        mTask.setCallback(new LoadWordTask.LoadWordTaskCallback() {
+        mTask = new LoadNextWordTask(new LoadNextWordTask.LoadNextWordTaskCallback() {
             @Override
             public void preExecute() {
                 mMainController.loadingNextVocabulary();
             }
 
             @Override
-            public void update(Vocabulary vocabulary) {
+            public void postExecute(Vocabulary vocabulary) {
                 Platform.runLater(() -> mMainController.updateVocabulary(vocabulary));
-            }
-
-            @Override
-            public void postExecute() {
                 mMainController.finishLoadingNextVocabulary();
             }
         });
@@ -80,5 +77,26 @@ public class Main extends Application {
 
     public void nextVocabulary() {
         mTask.run();
+    }
+
+    public void showSearchWindow() {
+        try {
+            // Load the fxml and create a new stage for the search window.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/search.fxml"));
+            AnchorPane searchWindow = loader.load();
+
+            // Create the new stage.
+            Stage stage = new Stage();
+            stage.setTitle("Search a word");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mPrimaryStage);
+            Scene scene = new Scene(searchWindow);
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
