@@ -32,6 +32,10 @@ public class Vocabulary {
         mChinese = new SimpleStringProperty(chinese);
     }
 
+    public StringProperty getEnglishProperty() {
+        return mEnglish;
+    }
+
     public String getEnglish() {
         return mEnglish.get();
     }
@@ -41,6 +45,10 @@ public class Vocabulary {
         mEnglish.set(english);
     }
 
+    public StringProperty getPhoneticProperty() {
+        return mPhonetic;
+    }
+
     public String getPhonetic() {
         return mPhonetic.get();
     }
@@ -48,6 +56,10 @@ public class Vocabulary {
     public void setPhonetic(String phonetic) {
         phonetic = phonetic == null ? "" : phonetic;
         mPhonetic.set(phonetic);
+    }
+
+    public StringProperty getChineseProperty() {
+        return mChinese;
     }
 
     public String getChinese() {

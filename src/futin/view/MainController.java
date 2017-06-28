@@ -50,6 +50,9 @@ public class MainController {
     @FXML
     private Button mSearchButton;
 
+    @FXML
+    private Button mFavoriteListButton;
+
     private Vocabulary mCurrentVocabulary;
 
     @FXML
@@ -132,9 +135,16 @@ public class MainController {
     }
 
     @FXML
-    private void handleSearch() {
+    private void openSearchWindow() {
         if (mMain != null) {
             mMain.showSearchWindow();
+        }
+    }
+
+    @FXML
+    private void openFavoriteListWindow() {
+        if (mMain != null) {
+            mMain.showFavoriteListWindow();
         }
     }
 }

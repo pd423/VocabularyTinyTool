@@ -23,12 +23,13 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="26.0" layoutY="177.0" text="More detail:" />
-      <Hyperlink fx:id="mOnlineLink" layoutX="99.0" layoutY="173.0" text="Dr. eye" />
+      <Label layoutX="18.0" layoutY="177.0" text="More detail:" />
+      <Hyperlink fx:id="mOnlineLink" layoutX="91.0" layoutY="173.0" text="Dr. eye" />
       <Button fx:id="mNextButton" layoutX="261.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleNext" text="&gt;" />
       <ProgressIndicator fx:id="mLoadingProgress" layoutX="151.0" layoutY="8.0" prefHeight="23.0" prefWidth="17.0" visible="false" />
       <Label fx:id="mLoadingLabel" layoutX="175.0" layoutY="12.0" text="Loading next word" textFill="#727272" visible="false" />
       <Button fx:id="mStarButton" layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleStarIt" text="☆" />
-      <Button fx:id="mSearchButton" layoutX="190.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
+      <Button fx:id="mSearchButton" layoutX="190.0" layoutY="164.0" mnemonicParsing="false" onAction="#openSearchWindow" text="Search" />
+      <Button fx:id="mFavoriteListButton" layoutX="153.0" layoutY="164.0" mnemonicParsing="false" onAction="#openFavoriteListWindow" prefHeight="27.0" prefWidth="17.0" text="♥︎" />
    </children>
 </AnchorPane>

@@ -99,4 +99,25 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
+    public void showFavoriteListWindow() {
+        try {
+            // Load the fxml and create a new stage for the search window.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/favorite_table.fxml"));
+            AnchorPane favoriteListWindow = loader.load();
+
+            // Create the new stage.
+            Stage stage = new Stage();
+            stage.setTitle("Favorite vocabularies");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mPrimaryStage);
+            Scene scene = new Scene(favoriteListWindow);
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
