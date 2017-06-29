@@ -1,9 +1,16 @@
 package futin;
 
+import futin.util.TextUtils;
 import futin.util.Utils;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.TimerTask;
 
@@ -31,7 +38,6 @@ public class LoadNextWordTask extends TimerTask {
         if (mCallback == null) {
             return;
         }
-
         mCallback.preExecute();
 
         String vocabulary = getRandomVocabulary();
@@ -46,36 +52,29 @@ public class LoadNextWordTask extends TimerTask {
      * @return A vocabulary or a empty string
      */
     private String getRandomVocabulary() {
-        File wordDirectory = new File("res/raw/word");
-        File[] wordFileList = wordDirectory.listFiles();
-        if (wordFileList != null) {
-            int randomIndex = mRandom.nextInt(wordFileList.length);
+        FileReader fr = null;
+        BufferedReader br = null;
+        ArrayList<String> wordList = new ArrayList<>();
 
-            FileReader fr = null;
-            BufferedReader br = null;
-            ArrayList<String> wordList = new ArrayList<>();
+        try {
+            InputStream is = getClass().getResourceAsStream("/res/raw/word/word.txt");
+            br = new BufferedReader(new InputStreamReader(is));
 
-            try {
-                fr = new FileReader(wordFileList[randomIndex]);
-                br = new BufferedReader(fr);
+            String tmpLine;
 
-                String tmpLine;
-
-                while ((tmpLine = br.readLine()) != null) {
-                    wordList.add(tmpLine.split("%")[0]);
-                }
-
-                randomIndex = mRandom.nextInt(wordList.size());
-
-                return wordList.get(randomIndex);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                Utils.closeClosable(fr);
-                Utils.closeClosable(br);
+            while ((tmpLine = br.readLine()) != null) {
+                wordList.add(tmpLine.split("%")[0]);
             }
-        }
 
+            int randomIndex = mRandom.nextInt(wordList.size());
+
+            return wordList.get(randomIndex);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            Utils.closeClosable(fr);
+            Utils.closeClosable(br);
+        }
         return "";
     }
 }

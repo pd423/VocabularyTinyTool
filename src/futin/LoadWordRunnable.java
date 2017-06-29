@@ -2,6 +2,8 @@ package futin;
 
 import futin.util.TextUtils;
 import futin.util.Utils;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,13 +29,16 @@ public class LoadWordRunnable implements Runnable {
 
     @Override
     public void run() {
+        String htmlString = "";
+        String chinese = "";
+        String phonetic = "";
         if (!TextUtils.isEmpty(mEnglish)) {
-            String htmlString = getHtmlContent(Parameter.VOCABULARY_SEACH_URL_PREFIX + mEnglish);
-            String chinese = findChinese(htmlString);
-            String phonetic = findPhonetic(htmlString);
-            if (mCallback != null) {
-                mCallback.onPostExecute(new Vocabulary(mEnglish, phonetic, chinese));
-            }
+            htmlString = getHtmlContent(Parameter.VOCABULARY_SEACH_URL_PREFIX + mEnglish);
+            chinese = findChinese(htmlString);
+            phonetic = findPhonetic(htmlString);
+        }
+        if (mCallback != null) {
+            mCallback.onPostExecute(new Vocabulary(mEnglish, phonetic, chinese));
         }
     }
 
