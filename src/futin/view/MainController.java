@@ -10,7 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
+import javafx.scene.text.Font;
 
 import java.awt.*;
 import java.io.IOException;
@@ -67,6 +68,10 @@ public class MainController {
                 e.printStackTrace();
             }
         });
+
+        mPhoneticLabel.setFont(new Font("Arial", 13));
+        mFavoriteListButton.setFont(new Font("Arial", 13));
+        mStarButton.setFont(new Font("Arial", 13));
     }
 
     public void setMain(Main main) {

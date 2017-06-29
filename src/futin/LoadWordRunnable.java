@@ -61,7 +61,7 @@ public class LoadWordRunnable implements Runnable {
             URLConnection conn = url.openConnection();
 
             // Open the stream and put it into BufferedReader
-            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
             String inputLine;
             while ((inputLine = br.readLine()) != null) {

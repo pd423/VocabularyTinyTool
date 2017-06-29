@@ -16,9 +16,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 
 import java.awt.*;
+import java.awt.Font;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -73,6 +74,9 @@ public class SearchController {
                 handleSearch();
             }
         });
+
+        mPhoneticLabel.setFont(new javafx.scene.text.Font("Arial", 13));
+        mStarButton.setFont(new javafx.scene.text.Font("Arial", 13));
     }
 
     public void setMain(Main main) {
